@@ -13,5 +13,26 @@
     <strong>Plan:</strong>
     <%= package.plan_id %>
   </p>
+  
+  <p>
+    <strong>Additional Services:</strong>
+    <%= package.additional_services.map(&:name).join(', ') %>
+  </p>
 
+  <p>
+    <strong>Total Price:</strong>
+    <%= package.price_all %>
+  </p>
 </div>
+
+<h1>Pacote: <%= @package.name %></h1>
+
+<p><strong>Plano:</strong> <%= @package.plan.name %></p>
+<p><strong>Valor:</strong> R$ <%= @package.price_all %></p>
+
+<h3>Serviços Adicionais:</h3>
+<ul>
+  <% @package.additional_services.each do |s| %>
+    <li><%= s.name %> - R$ <%= s.price %></li>
+  <% end %>
+</ul>

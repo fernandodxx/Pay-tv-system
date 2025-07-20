@@ -1,16 +1,32 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "Packages" %>
-
-<h1>Packages</h1>
-
-<div id="packages">
-  <% @packages.each do |package| %>
-    <%= render package %>
-    <p>
-      <%= link_to "Show this package", package %>
-    </p>
-  <% end %>
-</div>
+<h1>Pacotes</h1>
 
 <%= link_to "New package", new_package_path %>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Plano</th>
+      <th>Valor Total</th>
+      <th>Serviços</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @packages.each do |p| %>
+      <tr>
+        <td><%= p.name %></td>
+        <td><%= p.plan.name %></td>
+        <td>R$ <%= p.price_all %></td>
+        <td><%= p.additional_services.map(&:name).join(", ") %></td>
+        <td>
+          <%= link_to "Show", p %> |
+          <%= link_to "Edit", edit_package_path(p) %> |
+          <%= link_to "Excluir", p, method: :delete, data: { confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

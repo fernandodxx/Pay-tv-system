@@ -15,6 +15,11 @@
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
   </div>
+  
+  <div>
+    <%= form.label :plan_id, "Plano" %><br>
+    <%= form.collection_select :plan_id, @plans, :id, :name %>
+  </div>
 
   <div>
     <%= form.label :price, style: "display: block" %>
@@ -22,8 +27,10 @@
   </div>
 
   <div>
-    <%= form.label :plan_id, style: "display: block" %>
-    <%= form.text_field :plan_id %>
+    <%= label_tag :additional_service_ids, "Serviços Adicionais" %><br>
+    <%= select_tag "package[additional_service_ids][]",
+        options_from_collection_for_select(@services, :id, :name),
+        multiple: true %>
   </div>
 
   <div>

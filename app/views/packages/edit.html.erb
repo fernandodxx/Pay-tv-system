@@ -1,8 +1,6 @@
-<% content_for :title, "Editing package" %>
+<h1><%= action_name == "edit" ? "Editar Pacote" : "Novo Pacote" %></h1>
 
-<h1>Editing package</h1>
-
-<%= render "form", package: @package %>
+<%= render "form", package: @package, plans: @plans, services: @services %>
 
 <br>
 
