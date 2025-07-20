@@ -10,12 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_20_003613) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_20_151842) do
   create_table "additional_services", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "additional_services_packages", id: false, force: :cascade do |t|
+    t.integer "package_id", null: false
+    t.integer "additional_service_id", null: false
+    t.index ["additional_service_id", "package_id"], name: "idx_on_additional_service_id_package_id_92c01c0079"
+    t.index ["package_id", "additional_service_id"], name: "idx_on_package_id_additional_service_id_522bfe430c"
   end
 
   create_table "customers", force: :cascade do |t|
