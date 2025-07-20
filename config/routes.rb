@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :packages
   resources :additional_services
   resources :plans
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
