@@ -1,9 +1,10 @@
 class PackagesController < ApplicationController
   before_action :set_package, only: %i[ show edit update destroy ]
+  before_action :set_plans, :set_services, only: %i[ update create new edit ]
 
   # GET /packages or /packages.json
   def index
-    @packages = Package.all
+    @packages = Package.includes(:plan, :additional_services)
   end
 
   # GET /packages/1 or /packages/1.json
@@ -22,39 +23,26 @@ class PackagesController < ApplicationController
   # POST /packages or /packages.json
   def create
     @package = Package.new(package_params)
-
-    respond_to do |format|
-      if @package.save
-        format.html { redirect_to @package, notice: "Package was successfully created." }
-        format.json { render :show, status: :created, location: @package }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
-      end
+    if @package.save
+      redirect_to @package, notice: "Package was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /packages/1 or /packages/1.json
   def update
-    respond_to do |format|
-      if @package.update(package_params)
-        format.html { redirect_to @package, notice: "Package was successfully updated." }
-        format.json { render :show, status: :ok, location: @package }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @package.errors, status: :unprocessable_entity }
-      end
+    if @package.update(package_params)
+      redirect_to @package, notice: "Package was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   # DELETE /packages/1 or /packages/1.json
   def destroy
     @package.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to packages_path, status: :see_other, notice: "Package was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to packages_path, status: :see_other, notice: "Package was successfully destroyed."
   end
 
   private
@@ -63,8 +51,16 @@ class PackagesController < ApplicationController
       @package = Package.find(params.expect(:id))
     end
 
+    def set_plans
+      @plans = Plan.all
+    end
+
+    def set_services
+      @services = AdditionalService.all
+    end
+
     # Only allow a list of trusted parameters through.
     def package_params
-      params.expect(package: [ :name, :price, :plan_id ])
+      params.expect(package: [ :name, :price, :plan_id, additional_service_ids: [] ])
     end
 end
