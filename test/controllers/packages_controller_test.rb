@@ -3,6 +3,7 @@ require "test_helper"
 class PackagesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @package = packages(:one)
+    @additional_services = [ additional_services(:one).id, additional_services(:two).id ]
   end
 
   test "should get index" do
@@ -17,7 +18,7 @@ class PackagesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create package" do
     assert_difference("Package.count") do
-      post packages_url, params: { package: { name: @package.name, plan_id: @package.plan_id, price: @package.price } }
+      post packages_url, params: { package: { name: @package.name, plan_id: @package.plan_id, price: @package.price, additional_service_ids: @additional_services } }
     end
 
     assert_redirected_to package_url(Package.last)
@@ -34,7 +35,7 @@ class PackagesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update package" do
-    patch package_url(@package), params: { package: { name: @package.name, plan_id: @package.plan_id, price: @package.price } }
+    patch package_url(@package), params: { package: { name: @package.name, plan_id: @package.plan_id, price: @package.price, additional_service_ids: @additional_services } }
     assert_redirected_to package_url(@package)
   end
 
