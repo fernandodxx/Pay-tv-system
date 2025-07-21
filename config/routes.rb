@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "signatures/index"
+  get "signatures/new"
   resources :packages
   resources :additional_services
   resources :plans
