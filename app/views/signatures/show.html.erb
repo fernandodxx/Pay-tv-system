@@ -1,0 +1,21 @@
+<h1>Assinatura de <%= @signature.cliente.nome %></h1>
+
+<p>
+  Tipo: 
+  <%= @signature.plan ? "Plano - #{@signature.plan.name}" : "Pacote - #{@signature.package.name}" %>
+</p>
+
+<p>Serviços Adicionais:</p>
+<ul>
+  <% @signature.additional_services.each do |s| %>
+    <li><%= s.name %> - R$ <%= s.price %></li>
+  <% end %>
+</ul>
+
+<p>
+  <%= link_to "Ver Carnê", carne_signature_path(@signature) %> |
+  <%= link_to "Ver Faturas", faturas_signature_path(@signature) %> |
+  <%= link_to "Ver Contas", contas_signature_path(@signature) %>
+</p>
+
+<%= link_to "Voltar", signatures_path %>

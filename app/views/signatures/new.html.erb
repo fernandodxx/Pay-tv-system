@@ -1,2 +1,41 @@
-<h1>Signatures#new</h1>
-<p>Find me in app/views/signatures/new.html.erb</p>
+<h1>Nova Assinatura</h1>
+
+<%= form_with model: @signature do |f| %>
+  <% if @signature.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@signature.errors.count, "error") %> prohibited this signature from being saved:</h2>
+
+      <ul>
+      <% @signature.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :customer_id, "Cliente" %><br>
+    <%= f.collection_select :customer_id, @customers, :id, :name %>
+  </div>
+
+  <div>
+    <%= f.label :plan_id, "Plano (ou deixe em branco)" %><br>
+    <%= f.collection_select :plan_id, @plans, :id, :name, include_blank: true %>
+  </div>
+
+  <div>
+    <%= f.label :package_id, "Pacote (ou deixe em branco)" %><br>
+    <%= f.collection_select :package_id, @packages, :id, :name, include_blank: true %>
+  </div>
+
+  <div>
+    <%= label_tag "Serviços Adicionais (opcional)" %><br>
+    <%= select_tag "signature[additional_service_ids][]", options_from_collection_for_select(@services, :id, :name), multiple: true %>
+  </div>
+
+  <div>
+    <%= f.submit "Criar Assinatura" %>
+  </div>
+<% end %>
+
+<%= link_to "Voltar", signatures_path %>

@@ -1,6 +1,6 @@
 class PackagesController < ApplicationController
   before_action :set_package, only: %i[ show edit update destroy ]
-  before_action :set_plans, :set_services, only: %i[ update create new edit ]
+  before_action :set_form_collections, only: %i[ update create new edit ]
 
   # GET /packages or /packages.json
   def index
@@ -46,13 +46,10 @@ class PackagesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_package
-      @package = Package.find(params.expect(:id))
-    end
 
-    def set_plans
+    def set_form_collections
       @plans = Plan.all
+      @services = AdditionalService.all
     end
 
     def set_services

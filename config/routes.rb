@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  get "signatures/index"
-  get "signatures/new"
+
   resources :packages
   resources :additional_services
   resources :plans
+  resources :signatures
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   resources :customers
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
