@@ -3,6 +3,10 @@ class Signature < ApplicationRecord
   belongs_to :plan, optional: true
   belongs_to :package, optional: true
   has_and_belongs_to_many :additional_services
+  has_many :bills, dependent: :destroy
+  has_many :invoices, dependent: :destroy
+  has_one :payment_book, dependent: :destroy
+
 
   validate :must_have_one_type_only
   validate :no_duplicate_additional_services

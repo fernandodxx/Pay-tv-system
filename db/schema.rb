@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_23_210954) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_23_212552) do
   create_table "additional_services", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 8, scale: 2
@@ -76,6 +76,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_23_210954) do
     t.index ["plan_id"], name: "index_packages_on_plan_id"
   end
 
+  create_table "payment_books", force: :cascade do |t|
+    t.integer "signature_id", null: false
+    t.date "creation_date"
+    t.decimal "price", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signature_id"], name: "index_payment_books_on_signature_id"
+  end
+
   create_table "plans", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 8, scale: 2
@@ -97,6 +106,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_23_210954) do
   add_foreign_key "bills", "signatures"
   add_foreign_key "invoices", "signatures"
   add_foreign_key "packages", "plans"
+  add_foreign_key "payment_books", "signatures"
   add_foreign_key "signatures", "customers"
   add_foreign_key "signatures", "packages"
   add_foreign_key "signatures", "plans"
