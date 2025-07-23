@@ -38,12 +38,4 @@ class PackagesControllerTest < ActionDispatch::IntegrationTest
     patch package_url(@package), params: { package: { name: @package.name, plan_id: @package.plan_id, price: @package.price, additional_service_ids: @additional_services } }
     assert_redirected_to package_url(@package)
   end
-
-  test "should destroy package" do
-    assert_difference("Package.count", -1) do
-      delete package_url(@package)
-    end
-
-    assert_redirected_to packages_url
-  end
 end

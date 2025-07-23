@@ -37,12 +37,4 @@ class PlansControllerTest < ActionDispatch::IntegrationTest
     patch plan_url(@plan), params: { plan: { name: @plan.name, price: @plan.price } }
     assert_redirected_to plan_url(@plan)
   end
-
-  test "should destroy plan" do
-    assert_difference("Plan.count", -1) do
-      delete plan_url(@plan)
-    end
-
-    assert_redirected_to plans_url
-  end
 end

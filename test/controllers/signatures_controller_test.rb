@@ -1,13 +1,14 @@
 require "test_helper"
 
 class SignaturesControllerTest < ActionDispatch::IntegrationTest
+
   test "should get index" do
-    get signatures_index_url
+    get signatures_url
     assert_response :success
   end
 
   test "should get new" do
-    get signatures_new_url
+    get new_signature_url
     assert_response :success
   end
 end

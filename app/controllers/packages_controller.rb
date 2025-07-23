@@ -52,8 +52,8 @@ class PackagesController < ApplicationController
       @services = AdditionalService.all
     end
 
-    def set_services
-      @services = AdditionalService.all
+    def set_package
+      @package = Package.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
