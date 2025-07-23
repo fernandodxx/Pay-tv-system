@@ -1,5 +1,5 @@
 class SignaturesController < ApplicationController
-  before_action :set_signature, only: %i[ show ]
+  before_action :set_signature, only: %i[ show destroy ]
   before_action :set_form_collections, only: %i[ create new ]
   def index
     @signatures = Signature.includes(:customer).all
@@ -21,6 +21,11 @@ class SignaturesController < ApplicationController
     end
   end
 
+  def destroy
+    @signature.destroy
+    redirect_to signatures_path
+  end
+
   private
 
   def set_form_collections
@@ -35,6 +40,6 @@ class SignaturesController < ApplicationController
   end
 
   def signature_params
-    params.require(:signature).permit(:customer_id, :plan_id, :package_id)
+    params.require(:signature).permit(:customer_id, :plan_id, :package_id, additional_service_ids: [])
   end
 end

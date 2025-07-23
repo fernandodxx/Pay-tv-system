@@ -1,4 +1,4 @@
-<h1>Assinatura de <%= @signature.cliente.nome %></h1>
+<h1>Assinatura de <%= @signature.customer.name %></h1>
 
 <p>
   Tipo: 
@@ -11,11 +11,5 @@
     <li><%= s.name %> - R$ <%= s.price %></li>
   <% end %>
 </ul>
-
-<p>
-  <%= link_to "Ver Carnê", carne_signature_path(@signature) %> |
-  <%= link_to "Ver Faturas", faturas_signature_path(@signature) %> |
-  <%= link_to "Ver Contas", contas_signature_path(@signature) %>
-</p>
 
 <%= link_to "Voltar", signatures_path %>

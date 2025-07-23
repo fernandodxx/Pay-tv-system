@@ -1,2 +1,49 @@
-<h1>Signatures#index</h1>
-<p>Find me in app/views/signatures/index.html.erb</p>
+<h1>Assinaturas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cliente</th>
+      <th>Plano / Pacote</th>
+      <th>Serviços adicionais</th>
+      <th>Data</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @signatures.each do |signature| %>
+      <tr>
+        <td><%= signature.customer.name %></td>
+
+        <td>
+          <% if signature.plan.present? %>
+            Plano: <%= signature.plan.name %>
+          <% elsif signature.package.present? %>
+            Pacote: <%= signature.package.name %>
+          <% else %>
+            Não especificado
+          <% end %>
+        </td>
+
+        <td>
+          <% if signature.additional_services.any? %>
+            <ul>
+              <% signature.additional_services.each do |service| %>
+                <li><%= service.name %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            Nenhum
+          <% end %>
+        </td>
+
+        <td><%= l signature.created_at, format: :short %></td>
+
+        <td>
+          <%= link_to "Ver", signature_path(signature) %>
+          <%= button_to "Excluir", signature_path(signature), method: :delete, data: { turbo_confirm: "Tem certeza?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
