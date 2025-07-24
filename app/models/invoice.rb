@@ -1,7 +1,10 @@
 class Invoice < ApplicationRecord
   belongs_to :signature
-  belongs_to :payment_book, optional: true
   has_and_belongs_to_many :bills
 
-  validates :created_at, :due_date, :amount, presence: true
+  validates :creation_date, :due_date, :price, presence: true
+
+  def total_value
+    bills.sum(:price)
+  end
 end

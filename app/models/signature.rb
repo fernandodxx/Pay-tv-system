@@ -7,10 +7,11 @@ class Signature < ApplicationRecord
   has_many :invoices, dependent: :destroy
   has_one :payment_book, dependent: :destroy
 
-
   validate :must_have_one_type_only
   validate :no_duplicate_additional_services
   validate :no_package_service_repetitions
+
+  after_create :generate_billing_cycle
 
   private
 
@@ -35,5 +36,65 @@ class Signature < ApplicationRecord
     if conflicts.any?
       errors.add(:additional_services, "já estão no pacote")
     end
+  end
+
+  def generate_billing_cycle
+    start_date = Date.current
+
+    12.times do |i|
+      due_date = start_date + i.months
+
+      # Criar a fatura (invoice)
+      invoice = invoices.create!(
+        creation_date: Date.current,
+        due_date: due_date,
+        price: 0 # Será calculado baseado nas bills
+      )
+
+      total_invoice_value = 0
+
+      # Conta do plano ou pacote
+      if plan.present?
+        bill = bills.create!(
+          creation_date: Date.current,
+          due_date: due_date,
+          price: plan.price,
+          description: "Plano #{plan.name}"
+        )
+        invoice.bills << bill
+        total_invoice_value += plan.price
+      elsif package.present?
+        bill = bills.create!(
+          creation_date: Date.current,
+          due_date: due_date,
+          price: package.price,
+          description: "Pacote #{package.name}"
+        )
+        invoice.bills << bill
+        total_invoice_value += package.price
+      end
+
+      # Contas dos serviços adicionais
+      additional_services.each do |service|
+        bill = bills.create!(
+          creation_date: Date.current,
+          due_date: due_date,
+          price: service.price,
+          description: "Serviço adicional: #{service.name}"
+        )
+        invoice.bills << bill
+        total_invoice_value += service.price
+      end
+
+      # Atualizar o valor total da invoice
+      invoice.update!(price: total_invoice_value)
+    end
+
+    # Criar o carnê (payment_book)
+    total_payment_book_value = invoices.sum(:price)
+    create_payment_book!(
+      creation_date: Date.current,
+      price: total_payment_book_value
+    )
   end
 end

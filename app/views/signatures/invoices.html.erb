@@ -1,0 +1,13 @@
+<h1>Monthly Invoices</h1>
+
+<% @invoices.each do |invoice| %>
+  <h3>Due Date: <%= invoice.due_date.strftime('%d/%m/%Y') %></h3>
+  <ul>
+    <% invoice.bills.each do |bill| %>
+      <li><%= bill.description %> - R$ <%= bill.price %></li>
+    <% end %>
+  </ul>
+  <p><strong>Total: R$ <%= invoice.price %></strong></p>
+<% end %>
+
+<%= link_to "Back", signature_path(@signature) %>

@@ -1,0 +1,22 @@
+<h1>Individual Bills</h1>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Due Date</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bills.each do |bill| %>
+      <tr>
+        <td><%= bill.description %></td>
+        <td><%= bill.due_date.strftime('%d/%m/%Y') %></td>
+        <td>R$ <%= bill.price %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to "Back", signature_path(@signature) %>

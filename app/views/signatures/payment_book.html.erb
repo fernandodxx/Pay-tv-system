@@ -1,0 +1,19 @@
+<h1>Payment Book - 12 Months</h1>
+
+<% if @payment_book %>
+  <p><strong>Customer:</strong> <%= @payment_book.signature.customer.name %></p>
+  <p><strong>Total Price:</strong> <%= number_to_currency(@payment_book.price, unit: "R$ ") %></p>
+  <p><strong>Creation Date:</strong> <%= l(@payment_book.creation_date) %></p>
+
+  <h2>Monthly Invoices</h2>
+  <ul>
+    <% @payment_book.invoices.order(:due_date).each do |invoice| %>
+      <li>
+        <strong>Due Date:</strong> <%= l(invoice.due_date) %> — 
+        <strong>Price:</strong> <%= number_to_currency(invoice.price, unit: "R$ ") %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No payment book found for this signature.</p>
+<% end %>

@@ -12,4 +12,10 @@
   <% end %>
 </ul>
 
-<%= link_to "Voltar", signatures_path %>
+<p>
+  <%= link_to "View Payment Book", payment_book_signature_path(@signature) %> |
+  <%= link_to "View Invoices", invoices_signature_path(@signature) %> |
+  <%= link_to "View Bills", bills_signature_path(@signature) %>
+</p>
+
+<%= link_to "Back", signatures_path %>

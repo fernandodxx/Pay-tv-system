@@ -2,5 +2,5 @@ class Bill < ApplicationRecord
   belongs_to :signature
   has_and_belongs_to_many :invoices
 
-  validates :created_at, :due_date, :amount, presence: true
+  validates :creation_date, :due_date, :price, presence: true
 end
