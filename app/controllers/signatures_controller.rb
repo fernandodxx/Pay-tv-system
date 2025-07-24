@@ -17,7 +17,6 @@ class SignaturesController < ApplicationController
     @signature = Signature.new(signature_params)
 
     if @signature.save
-      @signature.send(:generate_billing_cycle)
       redirect_to @signature, notice: "Assinatura criada e faturamento gerado com sucesso."
     else
       set_form_collections
@@ -39,11 +38,11 @@ class SignaturesController < ApplicationController
   end
 
   def invoices
-    @invoices = @signature.invoices.includes(:bills).order(:due_date)
+    @invoices = @signature.invoices
   end
 
   def bills
-    @bills = @signature.bills.order(:due_date)
+    @bills = @signature.bills
   end
 
   private

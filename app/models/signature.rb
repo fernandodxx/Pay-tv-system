@@ -15,6 +15,10 @@ class Signature < ApplicationRecord
 
   private
 
+  def generate_billing_cycle
+    SignatureFaturamentoService.new(self).generate_billing_cycle
+  end
+
   def must_have_one_type_only
     if plan.present? && package.present?
       errors.add(:base, "Não pode ter plano e pacote ao mesmo tempo")
@@ -36,60 +40,5 @@ class Signature < ApplicationRecord
     if conflicts.any?
       errors.add(:additional_services, "já estão no pacote")
     end
-  end
-
-  def generate_billing_cycle
-    start_date = Date.current
-
-    12.times do |i|
-      due_date = start_date + i.months
-
-      invoice = invoices.create!(
-        creation_date: Date.current,
-        due_date: due_date,
-        price: 0 # Será calculado baseado nas bills
-      )
-
-      total_invoice_value = 0
-
-      if plan.present?
-        bill = bills.create!(
-          creation_date: Date.current,
-          due_date: due_date,
-          price: plan.price,
-          description: "Plano #{plan.name}"
-        )
-        invoice.bills << bill
-        total_invoice_value += plan.price
-      elsif package.present?
-        bill = bills.create!(
-          creation_date: Date.current,
-          due_date: due_date,
-          price: package.price,
-          description: "Pacote #{package.name}"
-        )
-        invoice.bills << bill
-        total_invoice_value += package.price
-      end
-
-      additional_services.each do |service|
-        bill = bills.create!(
-          creation_date: Date.current,
-          due_date: due_date,
-          price: service.price,
-          description: "Serviço adicional: #{service.name}"
-        )
-        invoice.bills << bill
-        total_invoice_value += service.price
-      end
-
-      invoice.update!(price: total_invoice_value)
-    end
-
-    total_payment_book_value = invoices.sum(:price)
-    create_payment_book!(
-      creation_date: Date.current,
-      price: total_payment_book_value
-    )
   end
 end
