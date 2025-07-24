@@ -44,7 +44,6 @@ class Signature < ApplicationRecord
     12.times do |i|
       due_date = start_date + i.months
 
-      # Criar a fatura (invoice)
       invoice = invoices.create!(
         creation_date: Date.current,
         due_date: due_date,
@@ -53,7 +52,6 @@ class Signature < ApplicationRecord
 
       total_invoice_value = 0
 
-      # Conta do plano ou pacote
       if plan.present?
         bill = bills.create!(
           creation_date: Date.current,
@@ -74,7 +72,6 @@ class Signature < ApplicationRecord
         total_invoice_value += package.price
       end
 
-      # Contas dos serviços adicionais
       additional_services.each do |service|
         bill = bills.create!(
           creation_date: Date.current,
@@ -86,11 +83,9 @@ class Signature < ApplicationRecord
         total_invoice_value += service.price
       end
 
-      # Atualizar o valor total da invoice
       invoice.update!(price: total_invoice_value)
     end
 
-    # Criar o carnê (payment_book)
     total_payment_book_value = invoices.sum(:price)
     create_payment_book!(
       creation_date: Date.current,
