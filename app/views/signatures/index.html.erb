@@ -1,5 +1,5 @@
 <h1>Assinaturas</h1>
-
+<%= link_to "Nova Assinatura", new_signature_path %>
 <table>
   <thead>
     <tr>
@@ -47,3 +47,17 @@
     <% end %>
   </tbody>
 </table>
+<div>
+  <li>
+    <%= link_to "Novo plano", new_plan_path %>
+  </li>
+  <li>
+    <%= link_to "Novo serviço adicional", new_additional_service_path %>
+  </li>
+  <li>
+    <%= link_to "Novo pacote", new_package_path %>
+  </li>
+  <li>
+    <%= link_to "Novo cliente", new_customer_path %>
+  </li>
+</div>
