@@ -30,8 +30,7 @@ Sistema de gerenciamento de TV por assinatura, desenvolvido em **Ruby on Rails**
 
 ```bash
 # Clone o projeto
-git clone https://github.com/seu-usuario/pay-system.git
-cd pay-system
+git clone https://github.com/fernandodxx/Pay-tv-system.git
 
 # Instale as dependências
 bundle install
