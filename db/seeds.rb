@@ -14,9 +14,9 @@ Plan.destroy_all
 AdditionalService.destroy_all
 
 puts "Criando Planos..."
-basic = Plan.create!(name: "Plano Essencial", price: 49.90)
-advanced = Plan.create!(name: "Plano Avançado", price: 79.90)
-premium = Plan.create!(name: "Plano Premium", price: 129.90)
+basic = Plan.create!(name: "Essencial", price: 49.90)
+advanced = Plan.create!(name: "Avançado", price: 79.90)
+premium = Plan.create!(name: "Premium", price: 129.90)
 
 puts "Criando Serviços Adicionais..."
 hbo = AdditionalService.create!(name: "HBO Max", price: 19.90)
@@ -26,21 +26,21 @@ discovery = AdditionalService.create!(name: "Discovery Kids", price: 14.90)
 
 puts "Criando Pacotes..."
 family = Package.create!(
-  name: "Pacote Família",
+  name: "Família",
   price: 99.90,
   plan: basic,
   additional_services: [discovery]
 )
 
 sports = Package.create!(
-  name: "Pacote Esportes",
+  name: "Esportes",
   price: 119.90,
   plan: advanced,
   additional_services: [premiere]
 )
 
 cinema = Package.create!(
-  name: "Pacote Cinema",
+  name: "Cinema",
   price: 139.90,
   plan: premium,
   additional_services: [hbo, telecine]
