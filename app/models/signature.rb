@@ -1,4 +1,6 @@
 class Signature < ApplicationRecord
+  include SubscriptionInvoiceCreator
+
   belongs_to :customer
   belongs_to :plan, optional: true
   belongs_to :package, optional: true
@@ -11,13 +13,7 @@ class Signature < ApplicationRecord
   validate :no_duplicate_additional_services
   validate :no_package_service_repetitions
 
-  after_create :generate_billing_cycle
-
   private
-
-  def generate_billing_cycle
-    SignatureFaturamentoService.new(self).generate_billing_cycle
-  end
 
   def must_have_one_type_only
     if plan.present? && package.present?
