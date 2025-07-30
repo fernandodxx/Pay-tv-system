@@ -6,9 +6,12 @@ class Package < ApplicationRecord
   validates :name, :plan, presence: true
   validates :price, numericality: { greater_than: 0 }, allow_nil: true
   validate  :at_least_one_additional_service
+  before_save :price_all
 
   def price_all
-    price || (plan.price + additional_services.sum(:price))
+    unless price.present?
+      self.price = plan.price + additional_services.sum(:price)
+    end
   end
 
   private

@@ -23,7 +23,7 @@ module SubscriptionInvoiceCreator
   private
 
   def create_invoice_for_month(due_date)
-    invoices.create!(creation_date: Date.current, due_date: due_date, price: 0)
+    invoices.create!(creation_date: Date.current, due_date: due_date, price: 0.0)
   end
 
   def generate_bills_for_invoice(invoice, due_date)
